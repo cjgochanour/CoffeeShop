@@ -4,7 +4,23 @@
         <title>Coffee Shop</title>
     </head>
     <body>
+        <form>
+            <div>
+                <label for="beanName">Name: </label>
+                <input id="beanNameInput" name="beanName"></input>
+            </div>
+            <div>
+                <label for="beanRegion">Region: </label>
+                <input id="beanRegionInput" name="beanRegion""></input>
+            </div>
+            <div>
+                <label for="beanNotes">Notes: </label>
+                <input id="beanNotesInput" name="beanNotes"></input>
+            </div>
+            <input id="addBean" type="button" value="Create" />
+        </form>
         <button id="run-button">Run It!</button>
+        <div id="content"></div>
         <script src="main.js"></script>
     </body>
 </html>
