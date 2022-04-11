@@ -6,7 +6,7 @@ using CoffeeShop.Models;
 
 namespace CoffeeShop.Repositories
 {
-    public class CoffeeRepository
+    public class CoffeeRepository : ICoffeeRepository
     {
         private readonly string _connectionString;
         public CoffeeRepository(IConfiguration configuration)
