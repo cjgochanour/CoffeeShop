@@ -55,5 +55,42 @@ namespace CoffeeShop.Repositories
                 }
             }
         }
+        public Coffee Get(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT c.Id, c.Title, c.BeanVarietyId,
+                                               bv.[Name], bv.Region, bv.Notes
+                                        FROM Coffee c
+                                        LEFT JOIN BeanVariety bv ON bv.Id = c.BeanVarietyId
+                                        WHERE c.Id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        Coffee coffee = null;
+                        if (reader.Read())
+                        {
+                            coffee = new Coffee()
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                Title = reader.GetString(reader.GetOrdinal("Title")),
+                                BeanVarietyId = reader.GetInt32(reader.GetOrdinal("BeanVarietyId")),
+                                BeanVariety = new BeanVariety()
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("BeanVarietyId")),
+                                    Name = reader.GetString(reader.GetOrdinal("Name")),
+                                    Region = reader.GetString(reader.GetOrdinal("Region")),
+                                    Notes = reader.IsDBNull(reader.GetOrdinal("Notes")) ? null : reader.GetString(reader.GetOrdinal("Notes"))
+                                }
+                            };
+                        }
+                        return coffee;
+                    }
+                }
+            }
+        }
     }
 }
